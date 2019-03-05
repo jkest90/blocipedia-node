@@ -1,19 +1,28 @@
 {
-  "name": "blocipedia-node",
-  "version": "1.0.0",
-  "description": "An application that allows users to create, collaborate, and share wikis.",
-  "main": "src/server.js",
-  "scripts": {
-    "test": "export NODE_ENV=test && jasmine"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jkest90/blocipedia-node.git"
-  },
-  "author": "Jonathan Kestler",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jkest90/blocipedia-node/issues"
-  },
-  "homepage": "https://github.com/jkest90/blocipedia-node#readme"
+   "name": "blocipedia-node",
+   "version": "1.0.0",
+   "description": "An application that allows users to create, collaborate, and share wikis.",
+   "main": "src/server.js",
+   "scripts": {
+      "test": "export NODE_ENV=test && jasmine",
+      "start": "node src/server.js"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/jkest90/blocipedia-node.git"
+   },
+   "author": "Jonathan Kestler",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/jkest90/blocipedia-node/issues"
+   },
+   "homepage": "https://github.com/jkest90/blocipedia-node#readme",
+   "devDependencies": {
+      "jasmine": "^3.0.0",
+      "request": "^2.83.0"
+   },
+   "dependencies": {
+      "dotenv": "^5.0.0",
+      "express": "^4.16.2"
+   }
 }
