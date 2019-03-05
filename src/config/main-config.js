@@ -19,12 +19,12 @@ module.exports = {
       // mount express-validator middlewear to validate incoming data.
       app.use(expressValidator());
       // configure and mount express session middleweaer
-      // app.use(session({
-      //    secret: process.env["cookieSecret"],
-      //    resave: false,
-      //    saveUninitialized: false,
-      //    cookie: { maxAge: 1.21e+9 } // set cookie to expire in 14 days
-      // }));
+      app.use(session({
+         db: process.env.DATABASE_URL
+         resave: false,
+         saveUninitialized: false,
+         cookie: { maxAge: 1.21e+9 } // set cookie to expire in 14 days
+      }));
       // mount flash middlwear
       app.use(flash());
       // initialize passport-config
