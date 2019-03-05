@@ -20,7 +20,7 @@ module.exports = {
       app.use(expressValidator());
       // configure and mount express session middleweaer
       app.use(session({
-         db: process.env.DATABASE_URL
+         db: process.env.DATABASE_URL,
          resave: false,
          saveUninitialized: false,
          cookie: { maxAge: 1.21e+9 } // set cookie to expire in 14 days
