@@ -19,22 +19,18 @@ module.exports = {
       // mount express-validator middlewear to validate incoming data.
       app.use(expressValidator());
       // configure and mount express session middleweaer
-      app.use(session({
-         secret: process.env["cookieSecret"],
-         resave: false,
-         saveUninitialized: false,
-         cookie: { maxAge: 1.21e+9 } // set cookie to expire in 14 days
-      }));
+      // app.use(session({
+      //    secret: process.env["cookieSecret"],
+      //    resave: false,
+      //    saveUninitialized: false,
+      //    cookie: { maxAge: 1.21e+9 } // set cookie to expire in 14 days
+      // }));
       // mount flash middlwear
       app.use(flash());
       // initialize passport-config
       /// ------> //////// passportConfig.init(app); ///// <-------
-      // provide a middlewear function to add a variable called currentUser that we can access from our templates to get the user in session.
-      app.use((req, res ,next) => {
-         res.locals.currentUser = req.user;
-         next();
-      })
       // tell express where to find static assets.
       app.use(express.static(path.join(__dirname, '..', 'assets')));
+      app.use(logger('dev'));
    }
 };
