@@ -1,0 +1,19 @@
+{
+  "name": "blocipedia-node",
+  "version": "1.0.0",
+  "description": "An application that allows users to create, collaborate, and share wikis.",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "export NODE_ENV=test && jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkest90/blocipedia-node.git"
+  },
+  "author": "Jonathan Kestler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jkest90/blocipedia-node/issues"
+  },
+  "homepage": "https://github.com/jkest90/blocipedia-node#readme"
+}
