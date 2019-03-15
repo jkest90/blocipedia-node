@@ -30,6 +30,38 @@ module.exports = {
       .catch((err) => {
          callback(err);
       })
+   },
+
+   deleteWiki(req, callback) {
+      return Wiki.findById(req.params.id)
+      .then((wiki) => {
+         wiki.destroy()
+         .then((res) => {
+            callback(null, wiki);
+         });
+      })
+      .catch((err) => {
+         callback(err);
+      });
+   },
+
+   updateWiki(req, updatedWiki, callback) {
+      return Wiki.findById(req.params.id)
+      .then((wiki) => {
+         if (!wiki) {
+            return callback("Wiki not found");
+         }
+
+         wiki.update(updatedWiki, {
+            fields: Object.keys(updatedWiki)
+         })
+         .then(() => {
+            callback(null, wiki)
+         })
+         .catch((err) => {
+            callback(err);
+         })
+      })
    }
 
 }
