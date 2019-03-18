@@ -31,7 +31,7 @@ describe("routes : users", () => {
 
    describe("POST /users/signup", () => {
 
-      it("should create a new user on submit and redirect", (done) => {
+      it("should create a new user with a default role of 0 on submit, and redirect", (done) => {
          const options = {
             url: `${base}signup`,
             form: {
@@ -47,6 +47,7 @@ describe("routes : users", () => {
                expect(user).not.toBeNull();
                expect(user.username).toBe("user123");
                expect(user.id).toBe(1);
+               expect(user.role).toBe(0);
                done();
             })
             .catch((err) => {
@@ -56,7 +57,7 @@ describe("routes : users", () => {
          });
       });
 
-      it("should nnot create a new user with invalid attributes and redirect", (done) => {
+      it("should not create a new user with invalid attributes and redirect", (done) => {
          const options = {
             url: `${base}signup`,
             form: {
@@ -93,6 +94,8 @@ describe("routes : users", () => {
       });
 
    });
+
+
 
 
 });
