@@ -7,13 +7,22 @@ const sequelize = require("../../src/db/models/index").sequelize;
 describe("routes : users", () => {
 
    beforeEach((done) => {
-      sequelize.sync({force: true})
-      .then(() => {
-         done();
-      })
-      .catch((err) => {
-         console.log(err);
-         done();
+      this.user;
+
+      sequelize.sync({force: true}).then((res) => {
+         User.create({
+            username: "jkest90",
+            email: "jkest90@gmail.com",
+            password: "1234567890"
+         })
+         .then((user) => {
+            this.user = user;
+            done();
+         })
+         .catch((err) => {
+            console.log(err);
+            done();
+         });
       });
    });
 
@@ -46,7 +55,7 @@ describe("routes : users", () => {
             .then((user) => {
                expect(user).not.toBeNull();
                expect(user.username).toBe("user123");
-               expect(user.id).toBe(1);
+               expect(user.id).toBe(2);
                expect(user.role).toBe(0);
                done();
             })
@@ -95,7 +104,15 @@ describe("routes : users", () => {
 
    });
 
+   describe("GET /users/:id/payment", () => {
 
+      it("should render a payment screen", (done) => {
+         request.get(`${base}${this.user.id}/payment`, (err, res, body) => {
+            expect(body).toContain("Upgrade Account");
+            done();
+         })
+      })
 
+   });
 
 });

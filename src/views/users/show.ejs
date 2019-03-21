@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+
+   <head>
+      <% include ../static/partials/head.ejs %>
+   </head>
+
+   <body>
+
+      <% include ../static/partials/navbar.ejs %>
+
+      <main class="container">
+         <% include ../static/partials/messages.ejs %>
+         <h2 style="padding-top:20px"> <%= `${user.username}` %> Profile: </h2>
+
+
+         <h4> Wikis: </h4>
+
+         <ul class="list-unstyled" >
+            <% if (wikis) { %>
+               <% wikis.forEach((wiki) => {  %>
+                  <li>
+                     <a href="/wikis/<%= wiki.id %>">
+                        <%= wiki.title %>
+                     </a>
+                  </li>
+               <% }) %>
+            <% } %>
+         </ul>
+
+         <% if (user.isAdmin() || user.isPremium() ) { %>
+            <form style="display:initial" action="/users/<%= currentUser.id %>/updateStandard" method="post">
+               <button type="submit" class="btn btn-danger"> Downgrade to Standard </button>
+            </form>
+         <% } else if (user.role === 0) { %>
+            <form style="display:inital" action="/users/<%= currentUser.id %>/payment" method="get">
+               <button type="submit" class="btn btn-primary"> Upgrade to Premium! </button>
+            </form>
+         <% } %>
+
+      </main>
+
+</html>

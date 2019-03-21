@@ -6,21 +6,32 @@ const userController = require("../controllers/userController");
 
 
 // get signup form
-router.get("/users/signup", userController.signup_form);
+router.get("/users/signup", userController.signupForm);
+
 // "sign up" button - creates user if credentials valid
-router.post("/users/signup", validation.validateUsers, userController.signup_user);
-// router.post("/users", validation.validateUsers, userController.create);
+router.post("/users/signup", validation.validateUsers, userController.signupUser);
 
 // get sign in form
-router.get("/users/signin", userController.signin_form);
+router.get("/users/signin", userController.signinForm);
 
 // "sign in" button - signs user in if valid credentials
-router.post("/users/signin", validation.validateUsers, userController.signin_user);
+router.post("/users/signin", validation.validateUsers, userController.signinUser);
 
 // signs user out
-router.get("/users/signout", userController.signout_user);
+router.get("/users/signout", userController.signoutUser);
 
-// get user profile page with matching user id, including last 5 posts and comments.
-// router.get("/users/:id", userController.show);
+// show user profile
+router.get("/users/:id", userController.showProfile);
+
+// show payment upgrade screen
+router.get("/users/:id/payment", userController.paymentScreen);
+
+
+// submit premium upgrade
+router.post("/users/:id/updateStandard", userController.updateStandard);
+
+// submit premium downgrade
+router.post("/users/:id/updatePremium", userController.updatePremium);
+
 
 module.exports = router;
