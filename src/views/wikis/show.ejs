@@ -13,17 +13,35 @@
 
       <h1> <%= wiki.title %> </h1>
 
-         <% if (currentUser) { %>
-            <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning">Edit</a>
-            <% if (currentUser && (currentUser.id == wiki.userId || currentUser.isAdmin() )) { %>
-               <form style="display:initial" action="/wikis/<%= wiki.id %>/destroy" method="post">
-                  <button type="submit" class="btn btn-danger">Delete</button>
-               </form>
-            <% } %>
+
+      <h6> <%=  currentUser.username %></h6>
+      <% if (currentUser) { %>
+         <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning">Edit</a>
+         <% if (currentUser && (currentUser.id == wiki.userId || currentUser.isAdmin() )) { %>
+            <form style="display:initial" action="/wikis/<%= wiki.id %>/destroy" method="post">
+               <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
          <% } %>
+      <% } %>
 
 
-      <p> <%= wiki.body %> </p>
+      <p style="margin-top: 30px"> <%= wiki.body %> </p>
+      <% if (wiki.private == true) { %>
+         <small style="display:block" class="text-muted" id="bodyHelp">This is a Private Wiki. </small>
+         <% if (currentUser.isAdmin() || currentUser.isPremium() ) { %>
+            <form style="display:initial" action="/wikis/<%= wiki.id %>/updateToPublic" method="post">
+               <button type="submit" class="btn btn-primary btn-sm"> Change to Public </button>
+            </form>
+         <% } %>
+      <% } else { %>
+         <small style="display:block" class="text-muted" id="bodyHelp">This is a Public Wiki.  </small>
+            <% if (currentUser.isAdmin() || currentUser.isPremium() ) { %>
+            <form style="display:initial" action="/wikis/<%= wiki.id %>/updateToPrivate" method="post">
+               <button type="submit" class="btn btn-primary btn-sm"> Change to Private </button>
+            </form>
+            <% } %>
+      <% } %>
+
 
       </main>
 

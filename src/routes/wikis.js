@@ -12,6 +12,10 @@ router.post("/wikis/create", wikiController.create_wiki);
 router.post("/wikis/:id/destroy", wikiController.destroy);
 router.post("/wikis/:id/update", wikiController.update);
 
+router.post("/wikis/:id/updateToPrivate", wikiController.updateToPrivate);
+router.post("/wikis/:id/updateToPublic", wikiController.updateToPublic);
+
+
 module.exports = router;
 
 // // redirecs to /topics/:id on success

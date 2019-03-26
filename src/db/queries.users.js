@@ -62,7 +62,8 @@ module.exports = {
             return callback("User not found");
          }
          return user.update({role: updatedRole}, {fields: ["role"] } )
-         .then(() => {
+         .then((user) => {
+            console.log(user);
             callback(null, user);
          })
          .catch((err) => {
@@ -72,3 +73,32 @@ module.exports = {
    }
 
 }
+
+
+   //
+   // updateUserRole(id, updatedRole, private, callback) {
+   //    return User.findById(id)
+   //    .then((user) => {
+   //       if (!user) {
+   //          return callback("User not found");
+   //       }
+   //       return user.update({role: updatedRole}, {fields: ["role"] } )
+   //       .then(() => {
+   //          Wiki.all()
+   //          .then((wikis) => {
+   //             if (wikis.userId == id ) {
+   //                wikis.update({private: private}, {fields: ["private"]})
+   //                .then(() => {
+   //                   console.log(wikis);
+   //                   callback(null, user);
+   //                })
+   //             } else {
+   //                callback(null, user);
+   //             }
+   //          })
+   //       })
+   //       .catch((err) => {
+   //          callback(err);
+   //       })
+   //    })
+   // }

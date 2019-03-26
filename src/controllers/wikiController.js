@@ -50,7 +50,7 @@ module.exports = {
          let newWiki = {
             title: req.body.title,
             body: req.body.body,
-            privacy: req.body.privacy,
+            private: req.body.private,
             userId: req.user.id
          };
          wikiQueries.addWiki(newWiki, (err, wiki) => {
@@ -86,6 +86,28 @@ module.exports = {
          }
       });
 
+   },
+
+   updateToPrivate(req, res, next) {
+      wikiQueries.private(req, true, (err, wiki) => {
+         if (err || wiki == null) {
+            res.redirect(401, `/wikis`);
+         } else {
+            res.redirect(`/wikis/${wiki.id}`);
+         }
+      })
+   },
+
+   updateToPublic(req, res, next) {
+      wikiQueries.private(req, false, (err, wiki) => {
+         if (err || wiki == null) {
+            res.redirect(401, `/wikis`);
+         } else {
+            res.redirect(`/wikis/${wiki.id}`);
+         }
+      })
    }
+
+
 
 }

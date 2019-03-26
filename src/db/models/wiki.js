@@ -39,3 +39,21 @@ module.exports = (sequelize, DataTypes) => {
 
    return Wiki;
 };
+
+/* TO DO:
+
+- Premium & Admin users CAN: create new private wikis
+
+
+1. TEST: Prem. or Admin User creates private wiki
+   - AUTHORIZE IF (User.role === '1' OR '2') THEN Wiki.create({'private wiki'})
+
+2. views/wikis/show:
+
+
+
+- Premium & Admin users CAN: make public wikis private
+
+1. TEST: Prem. or Admin User updates wiki private attribute to public AND  private to public.
+
+ */

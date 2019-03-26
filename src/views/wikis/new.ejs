@@ -24,6 +24,12 @@
                <textarea rows="15" class="form-control" name="body" placeholder="Enter Description"></textarea>
                <small class="text-muted" id="bodyHelp">Body must be 10 or more characters in length. </small>
             </div>
+            <% if (currentUser.isAdmin() || currentUser.isPremium() ) { %> 
+               <div class="form-check">
+                  <input type="checkbox" class="form-check-input" name="private">
+                  <label class="form-check-label" for="private" style="margin-bottom:20px"> Private Wiki </label>
+               </div>
+            <% } %>
             <button type="submit" class="btn btn-primary">Submit</button>
          </form>
 

@@ -1,4 +1,5 @@
 const userQueries = require("../db/queries.users.js");
+const wikiQueries = require("../db/queries.wikis.js");
 const passport = require("passport");
 
 module.exports = {
@@ -102,9 +103,11 @@ module.exports = {
             req.flash("notice", "No user found matching that ID.");
             res.redirect(404, `/users/${req.params.id}`);
          } else {
-            console.log("USER ROLE:", user);
-            req.flash("notice", "Your account has been downgraded to a standard account.");
-            res.redirect(`/users/${req.params.id}`);
+            wikiQueries.downgradePrivate(req.params.id, (err, wiki) => {
+               console.log("USER ROLE:", user);
+               req.flash("notice", "Your account has been downgraded to a standard account.");
+               res.redirect(`/users/${req.params.id}`);
+            });
          }
       });
    }

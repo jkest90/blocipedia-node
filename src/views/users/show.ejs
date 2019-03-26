@@ -15,16 +15,33 @@
          <h2 style="padding-top:20px"> <%= `${user.username}` %> Profile: </h2>
 
 
-         <h4> Wikis: </h4>
 
-         <ul class="list-unstyled" >
+
+         <ul class="list-group" >
             <% if (wikis) { %>
+               <h4> Public Wikis: </h4>
                <% wikis.forEach((wiki) => {  %>
-                  <li>
-                     <a href="/wikis/<%= wiki.id %>">
-                        <%= wiki.title %>
-                     </a>
-                  </li>
+                  <%if (wiki.private == false) { %>
+                     <li style="font-style:italic">
+                        <a href="/wikis/<%= wiki.id %>">
+                           <%= wiki.title %>
+                        </a>
+                     </li>
+                  <% } %>
+               <% }) %>
+            <% } %>
+         </ul>
+         <ul class="list-group" >
+            <% if (wikis) { %>
+               <h4> Private Wikis: </h4>
+               <% wikis.forEach((wiki) => {  %>
+                  <%if (currentUser.id === wiki.userId && wiki.private == true) { %>
+                     <li style="font-style:italic">
+                        <a href="/wikis/<%= wiki.id %>">
+                           <%= wiki.title %>
+                        </a>
+                     </li>
+                  <% } %>
                <% }) %>
             <% } %>
          </ul>
@@ -32,6 +49,7 @@
          <% if (user.isAdmin() || user.isPremium() ) { %>
             <form style="display:initial" action="/users/<%= currentUser.id %>/updateStandard" method="post">
                <button type="submit" class="btn btn-danger"> Downgrade to Standard </button>
+               <small style="display:block" class="text-muted" id="bodyHelp"> If you choose to downgrade your account, all of your private wikis will become public.</small>
             </form>
          <% } else if (user.role === 0) { %>
             <form style="display:inital" action="/users/<%= currentUser.id %>/payment" method="get">

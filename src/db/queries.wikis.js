@@ -76,6 +76,43 @@ module.exports = {
             callback("Forbidden");
          }
       });
+   },
+
+   private(req, boolean, callback) {
+      return Wiki.findById(req.params.id)
+      .then((wiki) => {
+         if (!wiki) {
+            return callback("Wiki Not Found");
+         }
+
+         const authorized = new Authorizer(req.user, wiki).private()
+
+         if (authorized) {
+            wiki.update({private: boolean}, {fields: ["private"] })
+            .then(() => {
+               console.log(wiki);
+               callback(null, wiki);
+            })
+            .catch((err) => {
+               callback(err);;
+            })
+         }
+      })
+   },
+
+   downgradePrivate(id, callback) {
+      return Wiki.all()
+      .then((wikis) => {
+         wikis.forEach((wiki) => {
+            if (id == wiki.userId && wiki.private == true) {
+               console.log(wiki);
+               wiki.update({private : false }, {fields: ["private"]})
+               .then(() => {
+                  callback(null, wiki);
+               })
+            }
+         })
+      })
    }
 
 }
