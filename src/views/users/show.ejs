@@ -13,15 +13,15 @@
       <main class="container">
          <% include ../static/partials/messages.ejs %>
          <h2 style="padding-top:20px"> <%= `${user.username}` %> Profile: </h2>
-
+         <a href="/wikis/new" class="btn btn-success">New Wiki</a>
 
 
 
          <ul class="list-group" >
-            <% if (wikis) { %>
-               <h4> Public Wikis: </h4>
+            <% if (wikis.length !== 0) { %>
+               <h4 style="margin-top: 10px"> Public Wikis: </h4>
                <% wikis.forEach((wiki) => {  %>
-                  <%if (wiki.private == false) { %>
+                  <%if (!wiki.private) { %>
                      <li style="font-style:italic">
                         <a href="/wikis/<%= wiki.id %>">
                            <%= wiki.title %>
@@ -29,31 +29,34 @@
                      </li>
                   <% } %>
                <% }) %>
+            <% } else { %>
+               <h4 style="margin-top:20px"> You have no Public wikis </h4>
             <% } %>
          </ul>
          <ul class="list-group" >
-            <% if (wikis) { %>
-               <h4> Private Wikis: </h4>
-               <% wikis.forEach((wiki) => {  %>
-                  <%if (currentUser.id === wiki.userId && wiki.private == true) { %>
-                     <li style="font-style:italic">
-                        <a href="/wikis/<%= wiki.id %>">
-                           <%= wiki.title %>
-                        </a>
-                     </li>
-                  <% } %>
-               <% }) %>
-            <% } %>
+
+            <h4> Private Wikis </h4>
+            <% wikis.forEach((wiki, index) => {  %>
+               <%if (currentUser && (currentUser.id === wiki.userId && wiki.private == true)) { %>
+                  <li style="font-style:italic">
+                     <a href="/wikis/<%= wiki.id %>">
+                        <%= wiki.title %>
+                     </a>
+                  </li>
+               <% } %>
+            <% }) %>
+
          </ul>
 
-         <% if (user.isAdmin() || user.isPremium() ) { %>
+         <% if (currentUser && (user.isAdmin() || user.isPremium() )) { %>
             <form style="display:initial" action="/users/<%= currentUser.id %>/updateStandard" method="post">
-               <button type="submit" class="btn btn-danger"> Downgrade to Standard </button>
-               <small style="display:block" class="text-muted" id="bodyHelp"> If you choose to downgrade your account, all of your private wikis will become public.</small>
+               <button type="submit" style="margin-top:15%"class="btn btn-danger"> Downgrade to Standard </button>
+               <small style="display:block;paddnig-top:10px" class="text-muted" id="bodyHelp"> If you choose to downgrade your account, all of your private wikis will become public.</small>
             </form>
          <% } else if (user.role === 0) { %>
             <form style="display:inital" action="/users/<%= currentUser.id %>/payment" method="get">
-               <button type="submit" class="btn btn-primary"> Upgrade to Premium! </button>
+               <button style="margin-top: 15%" type="submit" class="btn btn-primary btn-sm"> Upgrade to Premium! </button>
+               <small style="display:block;padding-top:10px" class="text-primary" > Upgrade to a Premium Account for $15 USD to create and collaborate on Private Wikis! </small>
             </form>
          <% } %>
 

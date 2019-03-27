@@ -1,5 +1,7 @@
 const userQueries = require("../db/queries.users.js");
 const wikiQueries = require("../db/queries.wikis.js");
+const Wiki = require("../db/models").Wiki;
+const User = require("../db/models").User;
 const passport = require("passport");
 
 module.exports = {
@@ -97,19 +99,45 @@ module.exports = {
    },
 
    /// update user to standard
+   // updateStandard(req, res, next) {
+   //    userQueries.updateUserRole(req.params.id, 0, (err, user) => {
+   //       if (err || user == null) {
+   //          req.flash("notice", "No user found matching that ID.");
+   //          res.redirect(404, `/users/${req.params.id}`);
+   //       } else {
+   //          wikiQueries.downgradePrivate(req.params.id, (err, wiki) => {
+   //             console.log("USER ROLE:", user);
+   //             req.flash("notice", "Your account has been downgraded to a standard account.");
+   //             res.redirect(`/users/${req.params.id}`);
+   //          });
+   //       }
+   //    });
+   // }
    updateStandard(req, res, next) {
-      userQueries.updateUserRole(req.params.id, 0, (err, user) => {
-         if (err || user == null) {
-            req.flash("notice", "No user found matching that ID.");
-            res.redirect(404, `/users/${req.params.id}`);
-         } else {
-            wikiQueries.downgradePrivate(req.params.id, (err, wiki) => {
-               console.log("USER ROLE:", user);
-               req.flash("notice", "Your account has been downgraded to a standard account.");
-               res.redirect(`/users/${req.params.id}`);
-            });
-         }
-      });
+      User.findById(req.params.id)
+      .then((user) => {
+         user.role = 0;
+         user.save();
+         Wiki.update({ private: false}, { where: {userId: req.params.id} })
+         .then((wiki) => {
+            req.flash("notice", "You are now a standard user.");
+            res.redirect(`/users/${req.params.id}`);
+         })
+      })
    }
 
 }
+
+// downgradePrivate(id, callback) {
+//    return Wiki.all()
+//    .then((wikis) => {
+//       wikis.forEach((wiki) => {
+//          if (id == wiki.userId && wiki.private == true) {
+//             console.log(wiki);
+//             wiki.update({private : false }, {fields: ["private"]})
+//             .then(() => {
+//                callback(null, wiki)
+//             })
+//          }
+//       })
+//    })

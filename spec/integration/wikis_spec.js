@@ -35,7 +35,7 @@ describe("routes : wikis", () => {
 
    });
 
-   describe("user performing CRUD actions for Wiki", () => {
+   describe("free user performing CRUD actions for Wiki", () => {
 
       beforeEach((done) => {
          User.create({
@@ -56,7 +56,7 @@ describe("routes : wikis", () => {
                   done();
                }
             );
-         })
+         });
       });
 
       describe("GET /wikis", () => {

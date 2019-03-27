@@ -11,10 +11,9 @@
       <main class="container">
       <%- include("../static/partials/messages.ejs") -%>
 
-      <h1> <%= wiki.title %> </h1>
+      <h1 style="margin-top: 20px"> <%= wiki.title %> </h1>
 
 
-      <h6> <%=  currentUser.username %></h6>
       <% if (currentUser) { %>
          <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning">Edit</a>
          <% if (currentUser && (currentUser.id == wiki.userId || currentUser.isAdmin() )) { %>
@@ -26,16 +25,16 @@
 
 
       <p style="margin-top: 30px"> <%= wiki.body %> </p>
-      <% if (wiki.private == true) { %>
+      <% if (wiki.private) { %>
          <small style="display:block" class="text-muted" id="bodyHelp">This is a Private Wiki. </small>
-         <% if (currentUser.isAdmin() || currentUser.isPremium() ) { %>
+         <% if (currentUser && (currentUser.isAdmin() || currentUser.isPremium() )) { %>
             <form style="display:initial" action="/wikis/<%= wiki.id %>/updateToPublic" method="post">
                <button type="submit" class="btn btn-primary btn-sm"> Change to Public </button>
             </form>
          <% } %>
       <% } else { %>
          <small style="display:block" class="text-muted" id="bodyHelp">This is a Public Wiki.  </small>
-            <% if (currentUser.isAdmin() || currentUser.isPremium() ) { %>
+            <% if (currentUser && (currentUser.isAdmin() || currentUser.isPremium() )) { %>
             <form style="display:initial" action="/wikis/<%= wiki.id %>/updateToPrivate" method="post">
                <button type="submit" class="btn btn-primary btn-sm"> Change to Private </button>
             </form>

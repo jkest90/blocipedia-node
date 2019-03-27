@@ -9,16 +9,18 @@
    <main class="container">
       <% include ../static/partials/navbar.ejs %>
 
-      <h1 style="padding:20px">Wikis</h1>
+      <h1 style="margin-top: 15px">Wikis</h1>
       <% if (currentUser) { %>
          <a href="/wikis/new" class="btn btn-success">New Wiki</a>
       <% } %>
 
       <ul class="list-group">
          <% wikis.forEach((wiki) => { %>
-            <li class="list-group-item">
-               <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
-            </li>
+            <% if (!wiki.private) { %>
+               <li class="list-group-item">
+                  <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
+               </li>
+            <% } %>
          <% }) %>
       </ul>
 

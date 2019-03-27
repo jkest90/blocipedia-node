@@ -98,21 +98,6 @@ module.exports = {
             })
          }
       })
-   },
-
-   downgradePrivate(id, callback) {
-      return Wiki.all()
-      .then((wikis) => {
-         wikis.forEach((wiki) => {
-            if (id == wiki.userId && wiki.private == true) {
-               console.log(wiki);
-               wiki.update({private : false }, {fields: ["private"]})
-               .then(() => {
-                  callback(null, wiki);
-               })
-            }
-         })
-      })
    }
 
 }
