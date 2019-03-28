@@ -1,7 +1,16 @@
 const wikiQueries = require("../db/queries.wikis.js");
 const Authorizer = require("../policies/wikis");
+const markdown = require("markdown").markdown;
 
 module.exports = {
+
+    Editor(input, preview) {
+      this.update = function() {
+         preview.innerHTML = markdown.toHTML(input.value);
+      };
+      input.editor = this;
+      this.update();
+   },
 
    show_all(req, res, next) {
       wikiQueries.getAllWikis((err, wikis) => {
@@ -14,6 +23,23 @@ module.exports = {
       });
    },
 
+   show_wiki(req, res, next) {
+      wikiQueries.getWiki(req.params.id, (err, wiki) => {
+         let wikiMarkdown = {
+            title: markdown.toHTML(wiki.title),
+            body: markdown.toHTML(wiki.body),
+            private: wiki.private,
+            userId: wiki.userId,
+            id: wiki.id
+         }
+         if (err || wiki == null) {
+            res.redirect(404, "/");
+         } else {
+            res.render("wikis/show", {wikiMarkdown});
+         }
+      });
+   },
+
    newWiki_form(req, res, next) {
       const authorized = new Authorizer(req.user).new();
       // if (authorized) {
@@ -22,16 +48,6 @@ module.exports = {
          // req.flash("notice", "You are not authorized to do that.");
          // res.redirect("wikis/wikis");
       // }
-   },
-
-   show_wiki(req, res, next) {
-      wikiQueries.getWiki(req.params.id, (err, wiki) => {
-         if (err || wiki == null) {
-            res.redirect(404, "/");
-         } else {
-            res.render("wikis/show", { wiki });
-         }
-      });
    },
 
    edit_form(req, res, next) {
@@ -49,7 +65,7 @@ module.exports = {
       if (authorized) {
          let newWiki = {
             title: req.body.title,
-            body: req.body.body,
+            body:  req.body.body,
             private: req.body.private,
             userId: req.user.id
          };
