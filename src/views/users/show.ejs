@@ -34,7 +34,6 @@
             <% } %>
          </ul>
          <ul class="list-group" >
-
             <h4> Private Wikis </h4>
             <% wikis.forEach((wiki, index) => {  %>
                <%if (currentUser && (currentUser.id === wiki.userId && wiki.private == true)) { %>

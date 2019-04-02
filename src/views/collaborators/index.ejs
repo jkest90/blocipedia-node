@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+   <head>
+      <% include ../static/partials/head.ejs %>
+   </head>
+
+   <body>
+      <% include ../static/partials/navbar.ejs %>
+
+      <main class="container">
+         <%- include("../static/partials/messages.ejs") -%>
+
+         <h1> Add Collaborators to your Wiki </h1>
+
+         <ul class="list-group">
+            <% users.forEach((user) => { %>
+               <% if ((user.isPremium() || user.isAdmin()) && user.id !== currentUser.id) { %>
+                  <li class="list-group-item flex-column align-items-start">
+                     <form method="post" action="destroy">
+                        <div class="btn-group btn-group-lg float-right" role="group">
+                           <button class="btn btn-primary" name="id" value="<%= user.id %>"> Remove </a>
+                        </div>
+                     </form>
+                     <form method="post" action="create">
+                        <div class="btn-group btn-group-lg float-right" role="group">
+                           <button class="btn btn-danger" name="id" value="<%= user.id %>"> Add </a>
+                        </div>
+                     </form>
+                     <h5> <%= user.username %> </h5>
+                  </li>
+               <% } %>
+            <% }) %>
+         </ul>
+
+
+
+
+
+      </main>
+
+      <% include ../static/partials/baseScripts.ejs %>
+
+   </body>
+
+</html>

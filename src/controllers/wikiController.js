@@ -1,16 +1,10 @@
 const wikiQueries = require("../db/queries.wikis.js");
+const collaboratorQueries = require('../db/queries.collaborators.js');
 const Authorizer = require("../policies/wikis");
 const markdown = require("markdown").markdown;
 
 module.exports = {
 
-    Editor(input, preview) {
-      this.update = function() {
-         preview.innerHTML = markdown.toHTML(input.value);
-      };
-      input.editor = this;
-      this.update();
-   },
 
    show_all(req, res, next) {
       wikiQueries.getAllWikis((err, wikis) => {

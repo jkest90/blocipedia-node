@@ -10,6 +10,18 @@ module.exports = {
       res.render("users/signup");
    },
 
+   showAll(req, res, next){
+       console.log("Made it to show all");
+       userQueries.getAllUsers((err, users) => {
+         if(err){
+             res.redirect(500, "static/index");
+         }
+         else{
+             console.log(users);
+             res.render("wikis/edit", {users});
+         }
+       })
+     },
 
    signupUser(req, res, next) {
       let newUser = {
